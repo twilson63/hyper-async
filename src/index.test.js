@@ -35,4 +35,25 @@ test("ok2", async () => {
   );
 });
 
+test('test bimap', async () => {
+  const x = await Async.of(1)
+    .chain(x => Async.Rejected(2))
+    .bimap(x => x + 1, x => 2)
+    .toPromise().catch(x => x)
+
+  assert.equal(x, 3)
+
+})
+
+test('test bichain', async () => {
+  const x = await Async.of(1)
+    .chain(x => Async.Rejected(2))
+    .bichain(x => Async.Rejected(x + 1), Async.Resolved)
+    .toPromise().catch(x => x)
+
+  assert.equal(x, 3)
+
+})
+
+
 test.run();

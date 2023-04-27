@@ -7,6 +7,11 @@
  * @param {unknown}
  * @returns {Async}
  *
+ * @callback BiFunction
+ * @param {Function}
+ * @param {Function}
+ * @returns {Async}
+ * 
  * @callback Handler
  * @param {unknown} x
  * @returns {unknown}
@@ -26,27 +31,27 @@
  *
  * @callback Async
  * @param {Fork} fork
- * @returns {{fork: Fork, toPromise: Promise<unknown>, map: Map, chain: Chain, fold: Fold}}
+ * @returns {{fork: Fork, toPromise: Promise<unknown>, map: Map, bimap: BiFunction, chain: Chain, bichain: BiChainFn, fold: Fold}}
  */
 const Async = (fork) => ({
   fork,
   toPromise: () => new Promise((resolve, reject) => fork(reject, resolve)),
   map: (fn) => Async((rej, res) => fork(rej, (x) => res(fn(x)))),
-  // bimap: (f, g) =>
-  //   Async((rej, res) =>
-  //     fork(
-  //       (x) => rej(f(x)),
-  //       (x) => res(g(x))
-  //     )
-  //   ),
+  bimap: (f, g) =>
+    Async((rej, res) =>
+      fork(
+        (x) => rej(f(x)),
+        (x) => res(g(x))
+      )
+    ),
   chain: (fn) => Async((rej, res) => fork(rej, (x) => fn(x).fork(rej, res))),
-  // bichain: (f, g) =>
-  //   Async((rej, res) =>
-  //     fork(
-  //       (x) => f(x).fork(rej, res),
-  //       (x) => g(x).fork(rej, res)
-  //     )
-  //   ),
+  bichain: (f, g) =>
+    Async((rej, res) =>
+      fork(
+        (x) => f(x).fork(rej, res),
+        (x) => g(x).fork(rej, res)
+      )
+    ),
   fold: (f, g) =>
     Async((rej, res) =>
       fork(
@@ -61,12 +66,12 @@ export const Resolved = (x) => Async((rej, res) => res(x));
 export const Rejected = (x) => Async((rej, res) => rej(x));
 export const fromPromise =
   (f) =>
-  (...args) =>
-    Async((rej, res) =>
-      f(...args)
-        .then(res)
-        .catch(rej)
-    );
+    (...args) =>
+      Async((rej, res) =>
+        f(...args)
+          .then(res)
+          .catch(rej)
+      );
 
 export default {
   of,
