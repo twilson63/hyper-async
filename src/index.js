@@ -11,7 +11,7 @@
  * @param {Function}
  * @param {Function}
  * @returns {Async}
- * 
+ *
  * @callback Handler
  * @param {unknown} x
  * @returns {unknown}
@@ -66,12 +66,12 @@ export const Resolved = (x) => Async((rej, res) => res(x));
 export const Rejected = (x) => Async((rej, res) => rej(x));
 export const fromPromise =
   (f) =>
-    (...args) =>
-      Async((rej, res) =>
-        f(...args)
-          .then(res)
-          .catch(rej)
-      );
+  (...args) =>
+    Async((rej, res) =>
+      f(...args)
+        .then(res)
+        .catch(rej)
+    );
 
 export default {
   of,
