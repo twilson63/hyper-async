@@ -4,16 +4,16 @@
  * @returns {unknown}
  *
  * @callback AsyncFunction
- * @param {unknown}
+ * @param {unknown} fn
  * @returns {Async}
  *
  * @callback BiFunction
- * @param {Function}
- * @param {Function}
+ * @param {Function} x
+ * @param {Function} y
  * @returns {Async}
  *
  * @callback Handler
- * @param {unknown} x
+ * @param {unknown} fn
  * @returns {unknown}
  *
  * @callback Fork
@@ -22,11 +22,11 @@
  * @returns {unknown}
  *
  * @callback Map
- * @param {Function}
+ * @param {Function} fn
  * @returns {Async}
  *
  * @callback Chain
- * @param {AsyncFunction}
+ * @param {AsyncFunction} fn
  * @returns {Async}
  *
  * @callback Async
@@ -66,12 +66,12 @@ export const Resolved = (x) => Async((rej, res) => res(x));
 export const Rejected = (x) => Async((rej, res) => rej(x));
 export const fromPromise =
   (f) =>
-  (...args) =>
-    Async((rej, res) =>
-      f(...args)
-        .then(res)
-        .catch(rej)
-    );
+    (...args) =>
+      Async((rej, res) =>
+        f(...args)
+          .then(res)
+          .catch(rej)
+      );
 
 export default {
   of,
