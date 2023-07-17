@@ -28,10 +28,20 @@
  * @callback Chain
  * @param {AsyncFunction} fn
  * @returns {Async}
+ * 
+ * @callback BiChainFn
+ * @param {AsyncFunction} fn
+ * @returns {Async}
  *
+ * @callback Fold
+ * @param {Function} rej
+ * @param {Function} res
+ * @returns {any}
+ * 
  * @callback Async
  * @param {Fork} fork
  * @returns {{fork: Fork, toPromise: Promise<unknown>, map: Map, bimap: BiFunction, chain: Chain, bichain: BiChainFn, fold: Fold}}
+ * 
  */
 const Async = (fork) => ({
   fork,
