@@ -7,6 +7,19 @@
   "repository": "https://github.com/twilson63/hyper-async.git",
   "author": "Tom Wilson <tom@hyper.io>",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "devDependencies": {
     "esbuild": "^0.17.18",
     "eslint": "^8.39.0",
