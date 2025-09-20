@@ -10,6 +10,8 @@ npm install hyper-async
 
 ## Usage
 
+- Detailed guide: see `docs/async-adt.md` for a deeper dive into the Async (Task) ADT, including `map`, `chain`, `bimap`, and `bichain`.
+
 ### Composition and errors
 
 - `map(fn)`: `fn` must be a function. Sync throws inside `fn` are caught and become a rejected Async.
